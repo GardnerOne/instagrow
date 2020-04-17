@@ -52,7 +52,8 @@ class Instagrow:
     def _dismiss_notifications(self):
         # Dismiss notifications popup
         try:
-            pop_notifications = self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/button')
+            # pop_notifications = self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/button')
+            pop_notifications = self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[3]/button[2]')
             pop_notifications.click()
             print('Dismissed "Show Notifications" popup')
         except:
@@ -71,7 +72,7 @@ class Instagrow:
 
     def post(self, img):
         # TODO: pass photo to upload
-        # self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav[2]/div/div/div[2]/div/div/div[3]')
+        self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav[2]/div/div/div[2]/div/div/div[3]')
         print('Posted image:', img)
 
     def follow(self, acc):
