@@ -1,6 +1,7 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from time import sleep
+from pathlib import Path
 
 class Instagrow:
 
@@ -110,9 +111,8 @@ class Instagrow:
 
 
     def post(self, img):
-        # TODO: pass photo to upload
-        self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav[2]/div/div/div[2]/div/div/div[3]')
-        print('Posted image:', img)
+        # Posts to be done in Creator Studio
+        return
 
     def follow(self, acc):
         # TODO: Log followed users
