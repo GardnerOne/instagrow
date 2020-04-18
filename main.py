@@ -26,8 +26,12 @@ import utilities.secrets as secret
 chromedriver = '/Users/gardnerone/dev/utilities/chromedriver'
 driver = webdriver.Chrome(chromedriver)
 
-username = 'gardner.one'
 email = 'jamiedanielgardner@outlook.com'
 instapost = Instapost(driver, email, secret.pwd_fb)
+
+# TODO: create a bank of auto-captions
+caption = 'Who do you see when you look in the mirror?\n\n\nWith @complaineee (also on TikTok!)'
+post = 'insta-1.jpg'
+instapost.createPost(caption, post)
 
 print('Interactive mode started')
