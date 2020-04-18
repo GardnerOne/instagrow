@@ -1,6 +1,6 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
-import time
+from time import sleep
 
 class Instagrow:
 
@@ -23,12 +23,12 @@ class Instagrow:
 
         self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/article/div/div/div/form/div[7]/button').click()
         print('Logged in')
-        time.sleep(2)
+        sleep(2)
 
         # Dismiss any initial popups
         self._dismiss_saveInfo()
-        self._dismiss_notifications()
         self._dismiss_homescreen()
+        self._dismiss_notifications()
 
     def _load_site(self):
         # Magic strings
@@ -37,7 +37,7 @@ class Instagrow:
         # Navigate to Instagram
         self.driver.get(url)
         print('Loaded Instagram')
-        time.sleep(2)
+        sleep(2)
 
     def _dismiss_saveInfo(self):
         # Dismiss notifications popup
@@ -47,9 +47,12 @@ class Instagrow:
             print('Dismissed "Save Your Login Info" popup')
         except:
             print('No "Save Your Login Info" popup')
-        time.sleep(2)
+        sleep(2)
 
     def _dismiss_notifications(self):
+        y = 10
+        # Only shows on activity, so dummy scroll
+        self.scrollByY(y)
         # Dismiss notifications popup
         try:
             # pop_notifications = self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/button')
@@ -58,7 +61,8 @@ class Instagrow:
             print('Dismissed "Show Notifications" popup')
         except:
             print('No "Show Notifications" popup')
-        time.sleep(2)
+        self.scrollByY(-y)
+        sleep(2)
 
     def _dismiss_homescreen(self):
         # Dismiss homescreen popup
@@ -68,7 +72,42 @@ class Instagrow:
             print('Dismissed "Add to homescreen" popup')
         except:
             print('No "Add to homescreen" popup')
-        time.sleep(2)
+        sleep(2)
+
+    def _height(self):
+        return self.driver.execute_script('return document.body.scrollHeight;')
+
+    def customScript(self, js):
+        return self.driver.execute_script(js)
+
+    def scrollByY(self, y):
+        js_scroll = 'window.scrollTo({x}, {y});'.format(x=0, y=y)
+        self.driver.execute_script(js_scroll)
+
+    def scrollToBottom(self):
+        js_scroll_bottom = 'window.scrollTo(0, document.body.scrollHeight);'
+        self.driver.execute_script(js_scroll_bottom)
+
+    def scrollInfiniteBottom(self):
+        pause_time = 0.3
+        last_h = self._height()
+
+        ctr = 0
+        limit = 1000 # Prevent infinite loop
+        while True:
+            self.scrollToBottom()
+            sleep(pause_time)
+            new_h = self._height()
+
+            if new_h == last_h:
+                break
+            else:
+                last_h = new_h
+
+            if ctr > limit:
+                break
+            ctr += 1
+
 
     def post(self, img):
         # TODO: pass photo to upload
